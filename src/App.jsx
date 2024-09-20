@@ -1,19 +1,14 @@
 import { useState } from 'react';
-
-function Square({ value, onSquareClick }) {
-  return (
-    <button className="square" onClick={onSquareClick}>
-      {value}
-    </button>
-  );
-}
+import Button from './components/Button';
+import Square from './components/Square';
+import './index.css'
 
 export default function Board() {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [xIsNext,setXIsNnext] = useState(true);
 
   function handleClick(i) {
-    if (squares[i]) {
+    if (calculateWinner(squares) || squares[i]) {
       return;
     }
 
@@ -23,6 +18,10 @@ export default function Board() {
     setSquares(nextSquares);
     setXIsNnext(!xIsNext);
   }
+
+  function handleClickBtn(){
+    setSquares(Array(9).fill(null));
+   }
 
   const winner = calculateWinner(squares);
   let status;
@@ -51,6 +50,8 @@ export default function Board() {
         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
       </div>
+
+      <Button onClickHandler={handleClickBtn} />
     </>
   );
 }
